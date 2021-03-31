@@ -1,0 +1,664 @@
+Building configuration...
+
+Current configuration : 16458 bytes
+!
+! Last configuration change at 17:55:59 UTC Fri Mar 19 2021 by Z003NH3W
+! NVRAM config last updated at 17:56:00 UTC Fri Mar 19 2021 by Z003NH3W
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+service compress-config
+!
+hostname CN.SZ.CDC.Dev.Core
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-vrf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+logging buffered 4096000
+!
+username admin privilege 15 secret 5 $1$WJbe$79aF4ULMQ4p1v7ODIxemh1
+username Z003NUET privilege 15 secret 5 $1$pOtY$vwDqL6pQbMT8pwixCrsO3/
+username Z003NH3W privilege 15 secret 5 $1$UZ6h$59rdYrjnm7QU5qIMGtdvt0
+no aaa new-model
+clock timezone UTC 8 0
+switch 1 provision ws-c3850-24t
+!
+!
+!
+!
+!
+ip routing
+!
+no ip domain-lookup
+ip dhcp excluded-address 10.11.16.1 10.11.16.70
+!
+ip dhcp pool CDC01
+ origin file flash:/CDC_IP_MAC_binding_V_20210105.txt
+ default-router 10.11.0.254 
+ dns-server 10.11.16.200 10.11.16.201 
+!
+ip dhcp pool CDCshare
+ network 10.11.16.0 255.255.255.0
+ default-router 10.11.16.254 
+ dns-server 10.11.105.201 10.11.105.202 
+!
+!
+qos queue-softmax-multiplier 100
+!
+flow record CDC-flow-01
+ description CDC-flow-record
+ match datalink mac source address input
+ match datalink mac destination address input
+ match ipv4 protocol
+ match ipv4 source address
+ match ipv4 destination address
+ match transport source-port
+ match transport destination-port
+ collect counter bytes long
+ collect counter packets long
+ collect timestamp absolute first
+ collect timestamp absolute last
+!
+!
+flow exporter TO-CDC-OSA
+ destination 10.11.60.173
+ transport udp 2055
+!
+!
+flow monitor CDC-FLOW
+ exporter TO-CDC-OSA
+ cache timeout active 60
+ record CDC-flow-01
+!
+!
+crypto pki trustpoint TP-self-signed-1759496804
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-1759496804
+ revocation-check none
+ rsakeypair TP-self-signed-1759496804
+!
+!
+crypto pki certificate chain TP-self-signed-1759496804
+ certificate self-signed 01
+  3082022B 30820194 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31373539 34393638 3034301E 170D3137 30333031 31373432 
+  35395A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D31 37353934 
+  39363830 3430819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  8100BF67 FA9D866B 888BE558 9D783739 381500BE 3A13C959 995C74C5 7ABBAD34 
+  8D4C7B8A 810AB692 D2FB4B03 A2D95774 E380A2FC 70C99097 03951BCA C0C86E2B 
+  E06ABE3E 12622B15 F9E112E3 605F20FD F460C62C 79EFD6CE 50E62A18 0DEE6F54 
+  58180936 2C182B6F 45C10DDC 934F99A6 C21F0587 7239ED10 956530D2 FADDE465 
+  07330203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 301F0603 
+  551D2304 18301680 14EB2AEF 49AEC349 959EE25F 1AC6A03D 5980657C 3C301D06 
+  03551D0E 04160414 EB2AEF49 AEC34995 9EE25F1A C6A03D59 80657C3C 300D0609 
+  2A864886 F70D0101 05050003 8181005A 7D5F7A1B BB93D026 A373911A 8505196A 
+  EED0D5DE 5C59A491 275488A4 D968C64F 5AC339BE AA60A771 87B65905 F93FE30A 
+  8C905823 8E2E5D31 762F723F 5CABF373 AA0D33E3 1A7FA61C D67EA1AA E7121E47 
+  36C6DE29 543230A9 DC307312 7DAC4EA7 3D8B10BE E9793077 7B862A38 D296B6FB 
+  F6B44012 BD5834E2 1ED6F688 78944F
+  	quit
+diagnostic bootup level minimal
+port-channel load-balance src-dst-ip
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+spanning-tree vlan 1-4094 priority 24576
+hw-switch switch 1 logging onboard message level 3
+!
+redundancy
+ mode sso
+!
+!
+vlan 2000
+ name CDC.DEV
+!
+vlan 2005
+ name TO-Fortinet
+!
+vlan 2016
+ name CDC Services
+!
+vlan 2032
+ name yangrongju
+!
+vlan 2033
+ name yuqi
+!
+vlan 2034
+ name chenkang
+!
+vlan 2035
+ name chengjia
+!
+vlan 2036
+ name chenjianhua
+!
+vlan 2037
+ name wangzhuolong
+!
+vlan 2038
+ name caoleiallen
+!
+vlan 2039
+ name daipeng
+!
+vlan 2040
+ name daijun
+!
+vlan 2041
+ name xujianwei
+!
+vlan 2042
+ name zhaotian
+!
+vlan 2043
+ name zhoujianxin
+!
+vlan 2045
+ name caoleileo
+!
+vlan 2046
+ name lintao
+!
+vlan 2047
+ name jiangxueqing
+!
+vlan 2048
+ name chencanlin
+!
+vlan 2049
+ name zhengwenjing
+!
+vlan 2050
+ name sunzhuli
+!
+vlan 2051
+ name wangyan
+!
+vlan 2052
+ name xuzhihao
+!
+vlan 2053
+ name zhanghui
+!
+vlan 2054
+ name wuhongfeng
+!
+vlan 2055
+ name Zhang Jun Jie
+!
+vlan 2056
+ name yuyue
+!
+vlan 2057
+ name songjie
+!
+vlan 2058
+ name xuchunxia
+!
+vlan 2059
+ name chenlili
+!
+vlan 2060
+ name OPA
+!
+vlan 2061
+ name RAPC
+!
+vlan 2062
+ name DLP
+!
+vlan 2063
+ name Integration
+!
+vlan 2064
+ name zhuliuyao
+!
+vlan 2065
+ name caixuewa
+!
+vlan 2066
+ name wangzhe
+!
+vlan 2067
+ name DiaoHaiYang
+!
+vlan 2068
+ name ZhangPengFei
+!
+vlan 2069
+ name LiYuXiao
+!
+vlan 2070
+ name HouYancheng
+!
+vlan 2071
+ name HuLei
+!
+!
+class-map match-any non-client-nrt-class
+!
+policy-map port_child_policy
+ class non-client-nrt-class
+  bandwidth remaining ratio 10
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Port-channel1
+ switchport mode trunk
+!
+interface Port-channel2
+ switchport mode trunk
+!
+interface Port-channel3
+ switchport mode trunk
+!
+interface GigabitEthernet0/0
+ vrf forwarding Mgmt-vrf
+ no ip address
+ negotiation auto
+!
+interface GigabitEthernet1/0/1
+ description TO-CN.SZ.CDC.Dev.Acc01
+ switchport mode trunk
+ channel-group 1 mode on
+!
+interface GigabitEthernet1/0/2
+ description TO-CN.SZ.CDC.Dev.Acc01
+ switchport mode trunk
+ channel-group 1 mode on
+!
+interface GigabitEthernet1/0/3
+ description TO-CN.SZ.CDC.Dev.Acc02
+ switchport mode trunk
+ channel-group 2 mode on
+!
+interface GigabitEthernet1/0/4
+ description TO-CN.SZ.CDC.Dev.Acc02
+ switchport mode trunk
+ channel-group 2 mode on
+!
+interface GigabitEthernet1/0/5
+ description TO-CN.SZ.CDC.Dev.Acc03
+ switchport mode trunk
+ channel-group 3 mode on
+!
+interface GigabitEthernet1/0/6
+ description TO-CN.SZ.CDC.Dev.Acc03
+ switchport mode trunk
+ channel-group 3 mode on
+!
+interface GigabitEthernet1/0/7
+!
+interface GigabitEthernet1/0/8
+!
+interface GigabitEthernet1/0/9
+!
+interface GigabitEthernet1/0/10
+!
+interface GigabitEthernet1/0/11
+!
+interface GigabitEthernet1/0/12
+ switchport access vlan 2000
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/13
+ switchport access vlan 2048
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/14
+!
+interface GigabitEthernet1/0/15
+!
+interface GigabitEthernet1/0/16
+!
+interface GigabitEthernet1/0/17
+!
+interface GigabitEthernet1/0/18
+!
+interface GigabitEthernet1/0/19
+!
+interface GigabitEthernet1/0/20
+!
+interface GigabitEthernet1/0/21
+!
+interface GigabitEthernet1/0/22
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/23
+ switchport access vlan 2005
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/24
+ switchport access vlan 2005
+ switchport mode access
+ ip flow monitor CDC-FLOW input
+ spanning-tree portfast
+!
+interface GigabitEthernet1/1/1
+!
+interface GigabitEthernet1/1/2
+!
+interface GigabitEthernet1/1/3
+!
+interface GigabitEthernet1/1/4
+!
+interface TenGigabitEthernet1/1/1
+!
+interface TenGigabitEthernet1/1/2
+!
+interface TenGigabitEthernet1/1/3
+!
+interface TenGigabitEthernet1/1/4
+!
+interface Vlan1
+ no ip address
+!
+interface Vlan2000
+ ip address 10.11.0.254 255.255.255.0
+ ip access-group 2000 in
+!
+interface Vlan2005
+ ip address 10.11.5.20 255.255.255.240
+!
+interface Vlan2016
+ ip address 10.11.16.254 255.255.255.0
+!
+interface Vlan2032
+ ip address 10.11.32.254 255.255.255.0
+!
+interface Vlan2033
+ ip address 10.11.33.254 255.255.255.0
+!
+interface Vlan2034
+ ip address 10.11.34.254 255.255.255.0
+!
+interface Vlan2035
+ ip address 10.11.35.254 255.255.255.0
+!
+interface Vlan2036
+ ip address 10.11.36.254 255.255.255.0
+!
+interface Vlan2037
+ ip address 10.11.37.254 255.255.255.0
+!
+interface Vlan2038
+ ip address 10.11.38.254 255.255.255.0
+!
+interface Vlan2039
+ ip address 10.11.39.254 255.255.255.0
+!
+interface Vlan2040
+ ip address 10.11.40.254 255.255.255.0
+!
+interface Vlan2041
+ ip address 10.11.41.254 255.255.255.0
+!
+interface Vlan2042
+ ip address 10.11.42.254 255.255.255.0
+!
+interface Vlan2043
+ ip address 10.11.43.254 255.255.255.0
+!
+interface Vlan2044
+ ip address 10.11.44.254 255.255.255.0
+!
+interface Vlan2045
+ ip address 10.11.45.254 255.255.255.0
+!
+interface Vlan2046
+ ip address 10.11.46.254 255.255.255.0
+!
+interface Vlan2047
+ ip address 10.11.47.254 255.255.255.0
+!
+interface Vlan2048
+ ip address 10.11.48.254 255.255.255.0
+!
+interface Vlan2049
+ ip address 10.11.49.254 255.255.255.0
+!
+interface Vlan2050
+ ip address 10.11.50.254 255.255.255.0
+!
+interface Vlan2051
+ ip address 10.11.51.254 255.255.255.0
+!
+interface Vlan2052
+ ip address 10.11.52.254 255.255.255.0
+!
+interface Vlan2053
+ ip address 10.11.53.254 255.255.255.0
+!
+interface Vlan2054
+ ip address 10.11.54.254 255.255.255.0
+!
+interface Vlan2055
+ ip address 10.11.55.254 255.255.255.0
+!
+interface Vlan2056
+ ip address 10.11.56.254 255.255.255.0
+!
+interface Vlan2057
+ ip address 10.11.57.254 255.255.255.0
+!
+interface Vlan2058
+ ip address 10.11.58.254 255.255.255.0
+!
+interface Vlan2059
+ ip address 10.11.59.254 255.255.255.0
+!
+interface Vlan2060
+ ip address 10.11.60.254 255.255.255.0
+!
+interface Vlan2061
+ ip address 10.11.61.254 255.255.255.0
+!
+interface Vlan2062
+ ip address 10.11.62.254 255.255.255.0
+!
+interface Vlan2063
+ ip address 10.11.63.254 255.255.255.0
+!
+interface Vlan2064
+ ip address 10.11.64.254 255.255.255.0
+!
+interface Vlan2065
+ ip address 10.11.65.254 255.255.255.0
+!
+interface Vlan2066
+ ip address 10.11.66.254 255.255.255.0
+!
+interface Vlan2067
+ ip address 10.11.67.254 255.255.255.0
+!
+interface Vlan2068
+ ip address 10.11.68.254 255.255.255.0
+!
+interface Vlan2069
+ ip address 10.11.69.254 255.255.255.0
+!
+interface Vlan2070
+ ip address 10.11.70.254 255.255.255.0
+!
+interface Vlan2071
+ ip address 10.11.71.254 255.255.255.0
+!
+ip forward-protocol nd
+no ip http server
+ip http authentication local
+ip http secure-server
+ip route 0.0.0.0 0.0.0.0 10.11.5.17
+ip ssh version 2
+!
+!
+logging trap debugging
+logging host 10.11.60.83
+access-list 100 permit ip host 10.11.0.120 host 10.11.60.226
+access-list 2000 permit ip host 10.11.0.120 host 10.11.60.226
+access-list 2000 permit ip host 10.11.0.120 host 10.11.60.20
+access-list 2000 permit ip host 10.11.0.120 host 10.11.60.21
+access-list 2000 permit ip host 10.11.0.120 host 10.11.60.22
+access-list 2000 permit ip host 10.11.0.120 host 10.11.60.23
+access-list 2000 permit ip host 10.11.0.120 host 10.11.60.24
+access-list 2000 permit ip host 10.11.0.120 host 10.11.60.25
+access-list 2000 permit ip host 10.11.0.120 host 10.11.60.26
+access-list 2000 permit ip host 10.11.0.120 host 10.11.60.27
+access-list 2000 permit ip host 10.11.0.120 host 10.11.60.28
+access-list 2000 permit ip host 10.11.0.120 host 10.11.60.210
+access-list 2000 permit ip host 10.11.0.120 host 10.11.60.212
+access-list 2000 permit ip host 10.11.0.120 host 10.11.60.213
+access-list 2000 permit ip host 10.11.0.120 host 10.11.60.214
+access-list 2000 permit ip host 10.11.0.120 host 10.11.60.215
+access-list 2000 permit ip host 10.11.0.120 host 10.11.60.216
+access-list 2000 permit ip host 10.11.0.120 host 10.11.60.217
+access-list 2000 permit ip host 10.11.0.120 host 10.11.60.218
+access-list 2000 permit ip host 10.11.0.130 host 10.11.60.226
+access-list 2000 permit ip host 10.11.0.130 host 10.11.60.20
+access-list 2000 permit ip host 10.11.0.130 host 10.11.60.21
+access-list 2000 permit ip host 10.11.0.130 host 10.11.60.22
+access-list 2000 permit ip host 10.11.0.130 host 10.11.60.23
+access-list 2000 permit ip host 10.11.0.130 host 10.11.60.26
+access-list 2000 permit ip host 10.11.0.130 host 10.11.60.25
+access-list 2000 permit ip host 10.11.0.130 host 10.11.60.24
+access-list 2000 permit ip host 10.11.0.130 host 10.11.60.27
+access-list 2000 permit ip host 10.11.0.130 host 10.11.60.28
+access-list 2000 permit ip host 10.11.0.130 host 10.11.60.210
+access-list 2000 permit ip host 10.11.0.130 host 10.11.60.212
+access-list 2000 permit ip host 10.11.0.130 host 10.11.60.213
+access-list 2000 permit ip host 10.11.0.130 host 10.11.60.214
+access-list 2000 permit ip host 10.11.0.130 host 10.11.60.215
+access-list 2000 permit ip host 10.11.0.130 host 10.11.60.216
+access-list 2000 permit ip host 10.11.0.130 host 10.11.60.217
+access-list 2000 permit ip host 10.11.0.130 host 10.11.60.218
+access-list 2000 permit ip host 10.11.0.126 host 10.11.60.226
+access-list 2000 permit ip host 10.11.0.126 host 10.11.60.20
+access-list 2000 permit ip host 10.11.0.126 host 10.11.60.21
+access-list 2000 permit ip host 10.11.0.126 host 10.11.60.22
+access-list 2000 permit ip host 10.11.0.126 host 10.11.60.23
+access-list 2000 permit ip host 10.11.0.126 host 10.11.60.24
+access-list 2000 permit ip host 10.11.0.126 host 10.11.60.25
+access-list 2000 permit ip host 10.11.0.126 host 10.11.60.26
+access-list 2000 permit ip host 10.11.0.126 host 10.11.60.27
+access-list 2000 permit ip host 10.11.0.126 host 10.11.60.28
+access-list 2000 permit ip host 10.11.0.126 host 10.11.60.210
+access-list 2000 permit ip host 10.11.0.126 host 10.11.60.212
+access-list 2000 permit ip host 10.11.0.126 host 10.11.60.213
+access-list 2000 permit ip host 10.11.0.126 host 10.11.60.214
+access-list 2000 permit ip host 10.11.0.126 host 10.11.60.215
+access-list 2000 permit ip host 10.11.0.126 host 10.11.60.216
+access-list 2000 permit ip host 10.11.0.126 host 10.11.60.217
+access-list 2000 permit ip host 10.11.0.126 host 10.11.60.218
+access-list 2000 permit ip host 10.11.0.106 host 10.11.60.226
+access-list 2000 permit ip host 10.11.0.106 host 10.11.60.20
+access-list 2000 permit ip host 10.11.0.106 host 10.11.60.21
+access-list 2000 permit ip host 10.11.0.106 host 10.11.60.22
+access-list 2000 permit ip host 10.11.0.106 host 10.11.60.23
+access-list 2000 permit ip host 10.11.0.106 host 10.11.60.24
+access-list 2000 permit ip host 10.11.0.106 host 10.11.60.25
+access-list 2000 permit ip host 10.11.0.106 host 10.11.60.26
+access-list 2000 permit ip host 10.11.0.106 host 10.11.60.27
+access-list 2000 permit ip host 10.11.0.106 host 10.11.60.28
+access-list 2000 permit ip host 10.11.0.106 host 10.11.60.210
+access-list 2000 permit ip host 10.11.0.106 host 10.11.60.212
+access-list 2000 permit ip host 10.11.0.106 host 10.11.60.213
+access-list 2000 permit ip host 10.11.0.106 host 10.11.60.214
+access-list 2000 permit ip host 10.11.0.106 host 10.11.60.215
+access-list 2000 permit ip host 10.11.0.106 host 10.11.60.216
+access-list 2000 permit ip host 10.11.0.106 host 10.11.60.217
+access-list 2000 permit ip host 10.11.0.106 host 10.11.60.218
+access-list 2000 deny   ip 10.11.0.0 0.0.0.255 host 10.11.60.226
+access-list 2000 deny   ip 10.11.0.0 0.0.0.255 host 10.11.60.20
+access-list 2000 deny   ip 10.11.0.0 0.0.0.255 host 10.11.60.21
+access-list 2000 deny   ip 10.11.0.0 0.0.0.255 host 10.11.60.22
+access-list 2000 deny   ip 10.11.0.0 0.0.0.255 host 10.11.60.23
+access-list 2000 deny   ip 10.11.0.0 0.0.0.255 host 10.11.60.24
+access-list 2000 deny   ip 10.11.0.0 0.0.0.255 host 10.11.60.25
+access-list 2000 deny   ip 10.11.0.0 0.0.0.255 host 10.11.60.26
+access-list 2000 deny   ip 10.11.0.0 0.0.0.255 host 10.11.60.27
+access-list 2000 deny   ip 10.11.0.0 0.0.0.255 host 10.11.60.28
+access-list 2000 deny   ip 10.11.0.0 0.0.0.255 host 10.11.60.210
+access-list 2000 deny   ip 10.11.0.0 0.0.0.255 host 10.11.60.212
+access-list 2000 deny   ip 10.11.0.0 0.0.0.255 host 10.11.60.213
+access-list 2000 deny   ip 10.11.0.0 0.0.0.255 host 10.11.60.214
+access-list 2000 deny   ip 10.11.0.0 0.0.0.255 host 10.11.60.215
+access-list 2000 deny   ip 10.11.0.0 0.0.0.255 host 10.11.60.216
+access-list 2000 deny   ip 10.11.0.0 0.0.0.255 host 10.11.60.217
+access-list 2000 deny   ip 10.11.0.0 0.0.0.255 host 10.11.60.218
+access-list 2000 permit ip any any
+!
+snmp-server view restrict lldpXMedMIB excluded
+snmp-server community public RO
+snmp-server host 10.11.16.33 version 2c public 
+!
+no vstack
+!
+line con 0
+ exec-timeout 5 0
+ login local
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login local
+ transport input ssh
+!
+ntp server 10.11.105.201 source Vlan2000
+wsma agent exec
+ profile httplistener
+ profile httpslistener
+!
+wsma agent config
+ profile httplistener
+ profile httpslistener
+!
+wsma agent filesys
+ profile httplistener
+ profile httpslistener
+!
+wsma agent notify
+ profile httplistener
+ profile httpslistener
+!
+!
+wsma profile listener httplistener
+ transport http
+!
+wsma profile listener httpslistener
+ transport https
+!
+ap group default-group
+end

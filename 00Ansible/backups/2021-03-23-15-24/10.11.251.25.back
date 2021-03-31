@@ -1,0 +1,689 @@
+Building configuration...
+
+Current configuration : 18157 bytes
+!
+! Last configuration change at 11:11:56 UTC Fri Mar 5 2021 by admin
+! NVRAM config last updated at 11:12:47 UTC Fri Mar 5 2021 by admin
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname CN.SZ.CDC.Dev.Acc03
+!
+boot-start-marker
+boot-end-marker
+!
+logging buffered 4096000
+!
+username admin privilege 15 secret 5 $1$Er4w$v.UA7QHS8k1fPXG.Fwuce.
+username Z003NUET privilege 15 secret 5 $1$Vzvw$K5uw8eyhek0hyTBZcVuEU0
+username Z003NH3W privilege 15 secret 5 $1$F.Cq$Y7O0kRsxOx0xgad5QMkur.
+no aaa new-model
+clock timezone UTC 8 0
+switch 1 provision ws-c2960x-48td-l
+ip routing
+!
+!
+no ip domain-lookup
+vtp mode transparent
+!
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-1151926528
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-1151926528
+ revocation-check none
+ rsakeypair TP-self-signed-1151926528
+!
+!
+crypto pki certificate chain TP-self-signed-1151926528
+ certificate self-signed 01
+  3082022B 30820194 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31313531 39323635 3238301E 170D3137 30333130 31333035 
+  31355A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D31 31353139 
+  32363532 3830819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  8100A407 48FE3E0D 82A9C441 7D5FA83B E7F6E6B2 261EA0D1 D21513FD 92B42236 
+  0B7AB1F6 55A77184 2FC0E652 71AED09B 0DD01F12 FD5AB026 4143CD81 C2CF26E1 
+  316383B1 23AB43C0 796CA337 BECF4B88 B4AB2B8F F68C1FBF 7625B359 4EF68601 
+  95F24A69 575B9E0D CB4E4F5C D8B8140A A4941605 956F47DE 39853859 8545A79D 
+  8E690203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 301F0603 
+  551D2304 18301680 14E272D7 81CE9911 CAB07FD0 1CE04EA8 4EE243EC 8A301D06 
+  03551D0E 04160414 E272D781 CE9911CA B07FD01C E04EA84E E243EC8A 300D0609 
+  2A864886 F70D0101 05050003 8181002E 94AB2846 CA9AF25A AAC2C0F0 92A07020 
+  04BB6607 101BDF22 07E772B4 E3861A0C AC72F801 0F0F75F4 1A452D27 005ADEF8 
+  6DEB4C1A 1720F1E6 B1133287 3F2959CB D7985FB8 38213CE2 C3EE0B12 DD4C500E 
+  755F9BB7 CEDD84ED 1A647B05 D794B115 4F96B5EB 8E0373AE 5A142D71 1B46BFD4 
+  785ACBB3 A008828C 5690141A A33BAA
+  	quit
+spanning-tree mode pvst
+spanning-tree extend system-id
+port-channel load-balance src-dst-ip
+!
+!
+!
+!
+vlan internal allocation policy ascending
+!
+vlan 1000
+ name RSPAN
+ remote-span
+!
+vlan 2000
+ name CDC.DEV
+!
+vlan 2016
+ name CDC Share
+!
+vlan 2032
+ name yangrongju
+!
+vlan 2033
+ name yuqi
+!
+vlan 2034
+ name chenkang
+!
+vlan 2035
+ name chengjia
+!
+vlan 2036
+ name chenjianhua
+!
+vlan 2037
+ name wangzhuolong
+!
+vlan 2038
+ name caoleiallen
+!
+vlan 2039
+ name daipeng
+!
+vlan 2040
+ name daijun
+!
+vlan 2041
+ name xujianwei
+!
+vlan 2042
+ name zhaotian
+!
+vlan 2043
+ name zhoujianxin
+!
+vlan 2045
+ name caoleileo
+!
+vlan 2046
+ name lintao
+!
+vlan 2047
+ name jiangxueqing
+!
+vlan 2048
+ name chencanlin
+!
+vlan 2049
+ name zhengwenjing
+!
+vlan 2050
+ name sunzhuli
+!
+vlan 2051
+ name wangyan
+!
+vlan 2052
+ name xuzhihao
+!
+vlan 2053
+ name zhanghui
+!
+vlan 2054
+ name wuhongfeng
+!
+vlan 2056
+ name yuyue
+!
+vlan 2057
+ name songjie
+!
+vlan 2058
+ name xuchunxia
+!
+vlan 2059
+ name chenlili
+!
+vlan 2060
+ name OPA
+!
+vlan 2061
+ name RAPC
+!
+vlan 2062
+ name DLP
+!
+vlan 2063
+ name Integration
+!
+vlan 2066
+ name wangzhe
+!
+vlan 2067
+ name DiaoHaiYang
+!
+vlan 2068
+ name ZhangPengFei
+!
+lldp run
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+interface Port-channel24
+ switchport mode trunk
+!
+interface FastEthernet0
+ ip address 10.11.251.25 255.255.255.0
+ no ip route-cache
+!
+interface GigabitEthernet1/0/1
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1866.da33.93bf
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/2
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky e4b9.7aea.fdfb
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/3
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 4
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 000c.2900.f1ba
+ switchport port-security mac-address sticky 000c.2983.9411
+ switchport port-security mac-address sticky d89e.f397.e3d6
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/4
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 0000.9000.10ab
+ switchport port-security mac-address sticky 1866.da33.d366
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/5
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1866.da33.992a
+ switchport port-security mac-address sticky fc3f.db8a.2017
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/6
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/7
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/8
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1866.da33.9228
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/9
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 4
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1866.da1d.8329
+ switchport port-security mac-address sticky 1866.da33.8cc0
+ switchport port-security mac-address sticky e4b9.7aeb.0446
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/10
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 6
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 000c.2936.6d8a
+ switchport port-security mac-address sticky d89e.f381.5354
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/11
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 6
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky d89e.f398.8636
+ switchport port-security mac-address sticky e4b9.7aea.fe05
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/12
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky e4b9.7aea.fed9
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/13
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky a08c.fd9c.564c
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/14
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 6
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 0800.2720.301f
+ switchport port-security mac-address sticky 0800.2784.9416
+ switchport port-security mac-address sticky 0800.27f1.62bd
+ switchport port-security mac-address sticky 1866.da33.7217
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/15
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/16
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1866.da33.9987
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/17
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 4
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 0050.562a.cdf7
+ switchport port-security mac-address sticky 0800.27c4.2c48
+ switchport port-security mac-address sticky 1866.da33.9a96
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/18
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 4
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1866.da33.c845
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/19
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1866.da33.909e
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/20
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1866.da33.9135
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/21
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1866.da33.93d0
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/22
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 000c.29e5.bbe7
+ switchport port-security mac-address sticky 1866.da33.92a6
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/23
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 4
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 0800.271a.f3f3
+ switchport port-security mac-address sticky 0800.279b.6fdc
+ switchport port-security mac-address sticky 1866.da33.8d41
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/24
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1866.da33.900d
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/25
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1866.da33.9227
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/26
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 0000.3600.1022
+ switchport port-security mac-address sticky 1866.da33.d3cc
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/27
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky f48e.38b2.2d8d
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/28
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1866.da33.d3d7
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/29
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky d89e.f398.8163
+ switchport port-security mac-address sticky e4b9.7aeb.0111
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/30
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/31
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/32
+ description TO-CDC-DELL-7040
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/33
+!
+interface GigabitEthernet1/0/34
+ description TO-Meeting.Room
+ switchport access vlan 2000
+ switchport mode access
+ switchport port-security maximum 2
+ switchport port-security mac-address sticky
+ switchport port-security mac-address sticky 1866.da33.911b
+ switchport port-security
+ spanning-tree portfast
+ spanning-tree bpdufilter enable
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/35
+!
+interface GigabitEthernet1/0/36
+!
+interface GigabitEthernet1/0/37
+!
+interface GigabitEthernet1/0/38
+!
+interface GigabitEthernet1/0/39
+!
+interface GigabitEthernet1/0/40
+!
+interface GigabitEthernet1/0/41
+!
+interface GigabitEthernet1/0/42
+!
+interface GigabitEthernet1/0/43
+!
+interface GigabitEthernet1/0/44
+!
+interface GigabitEthernet1/0/45
+ description To-CD.SZ.CDC.Dev.ACC04
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/46
+ description To-CD.SZ.CDC.Dev.ACC04
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/47
+ switchport mode trunk
+ channel-group 24 mode on
+!
+interface GigabitEthernet1/0/48
+ switchport mode trunk
+ channel-group 24 mode on
+!
+interface GigabitEthernet1/0/49
+!
+interface GigabitEthernet1/0/50
+!
+interface TenGigabitEthernet1/0/1
+!
+interface TenGigabitEthernet1/0/2
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+ip http server
+ip http secure-server
+!
+ip route 0.0.0.0 0.0.0.0 10.11.251.254
+ip ssh version 2
+!
+logging trap debugging
+logging host 10.11.35.150 transport tcp port 514
+!
+snmp-server user remoteuser1 group1 v3 
+snmp-server group group1 v3 noauth 
+snmp-server community public RO
+snmp-server host 10.11.16.33 informs version 3 noauth remoteuser1 
+snmp-server host 10.11.16.33 version 2c public 
+!
+no vstack
+!
+line con 0
+ exec-timeout 5 0
+ login local
+line vty 0 4
+ login local
+line vty 5 15
+ login local
+!
+!
+monitor session 1 source interface Gi1/0/1 - 30
+monitor session 1 destination remote vlan 1000 
+ntp server 10.11.105.201
+end

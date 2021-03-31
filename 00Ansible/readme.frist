@@ -1,0 +1,14 @@
+ansible 
+ssh 报错修改：
+开启以下内容：
+StrictHostKeyChecking no
+KexAlgorithms +diffie-hellman-group1-sha1
+
+安装 pip3
+apt install python3-pip
+安装 
+pip3 install paramiko
+
+ansible-galaxy collection install arista.eos
+ansible-galaxy collection install vyos.vyos
+ansible-galaxy collection install cisco.ios

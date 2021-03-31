@@ -1,0 +1,12 @@
+IPy
+xlwt
+untangle
+numpy
+keras
+tldextract
+scapy
+elasticsearch
+pydub
+ffmpeg
+arrow
+pyVmomi

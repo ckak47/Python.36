@@ -1,0 +1,347 @@
+Building configuration...
+
+Current configuration : 7435 bytes
+!
+! Last configuration change at 14:57:39 UTC Fri Mar 19 2021 by Z003NH3W
+! NVRAM config last updated at 08:45:02 UTC Tue Oct 9 2018 by Z003NH3W
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+service compress-config
+!
+hostname CN.SZ.CDC.DEMO.Core
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-vrf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+logging buffered 4096000
+!
+username admin privilege 15 secret 5 $1$dClD$pRV7KyhRwy6F0tvDePUuE1
+username Z003NUET privilege 15 secret 5 $1$N8e2$ZZIHVzlMf7Plq2qIjTq0z1
+username Z003NH3W privilege 15 secret 5 $1$WWPA$rk8qevjYpYEagRWtq.N9L.
+no aaa new-model
+clock timezone UTC 8 0
+switch 1 provision ws-c3850-24t
+!
+!
+!
+!
+!
+ip routing
+!
+no ip domain-lookup
+!
+!
+qos queue-softmax-multiplier 100
+vtp mode transparent
+!
+crypto pki trustpoint TP-self-signed-4012751235
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-4012751235
+ revocation-check none
+ rsakeypair TP-self-signed-4012751235
+!
+!
+crypto pki certificate chain TP-self-signed-4012751235
+ certificate self-signed 01
+  3082022B 30820194 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 34303132 37353132 3335301E 170D3136 31313032 30343139 
+  35345A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D34 30313237 
+  35313233 3530819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  8100DB3A 5525C90B 5B95987C AD367CBD 1EEC2863 8E05412B A511651B 67438FCD 
+  BCB3C5E1 9E1D9923 82D2FBB5 3E18E543 34B09AD5 35B8DB3A 689B7E12 492D8BF1 
+  B409945F E55089A3 397AD7CE 2CADE486 B10FADA7 78D8CA39 91D80F85 CE41C263 
+  2F80A67D 25F4E37D E683E963 AF3D997D 2881AFE1 31CBB679 22A3A11E 2E09EDD8 
+  A68F0203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 301F0603 
+  551D2304 18301680 1457F786 40CCBA26 D5BE9F11 611F1BE0 E3556012 48301D06 
+  03551D0E 04160414 57F78640 CCBA26D5 BE9F1161 1F1BE0E3 55601248 300D0609 
+  2A864886 F70D0101 05050003 818100CF CE4590DF C44A6D1C F9FA4078 FAF64B23 
+  114656EF D58F5E7C C1A37EA3 F573E3BE 944471A5 66C84EB9 646C7E67 D70E098B 
+  40EE72AF 4371560B B3349539 DDB4FB9E E0DAEFCA A859425C 1C602980 99815D18 
+  4A575C13 B8A02BC4 F6FF9FCE 00D3C76A 965E1CF5 A5284314 7E4916E3 2A68E911 
+  F73E34AC 919653DE 14CA0DA2 BD0D98
+  	quit
+diagnostic bootup level minimal
+port-channel load-balance src-dst-ip
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+no hw-switch switch 1 logging onboard
+no hw-switch switch 1 logging onboard message level
+!
+redundancy
+ mode sso
+!
+!
+vlan 10
+ name C2
+!
+vlan 100
+ name For-Arcsight
+!
+vlan 101
+ name To-Data-10.11.101.0
+!
+vlan 102
+ name To-Data-10.11.102.0
+!
+vlan 103
+ name To-Data-10.11.103.0
+!
+vlan 2005
+ name To-CDC-Internet
+!
+vlan 2009 
+!
+vlan 2104
+ name DMZ.Siemens
+!
+vlan 2260
+ name Internet
+!
+!
+class-map match-any non-client-nrt-class
+!
+policy-map port_child_policy
+ class non-client-nrt-class
+  bandwidth remaining ratio 10
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Port-channel1
+ switchport trunk allowed vlan 2104
+ switchport mode trunk
+!
+interface Port-channel98
+ switchport mode trunk
+!
+interface Port-channel128
+ switchport trunk allowed vlan 2104
+ switchport mode trunk
+!
+interface GigabitEthernet0/0
+ vrf forwarding Mgmt-vrf
+ no ip address
+ negotiation auto
+!
+interface GigabitEthernet1/0/1
+ description DMZ-TO-Fortinat
+ switchport access vlan 2005
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/2
+ switchport trunk allowed vlan 10,100-103
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/3
+ description TO-ESXi98.Demo
+ switchport mode trunk
+ channel-group 98 mode on
+!
+interface GigabitEthernet1/0/4
+ description TO-ESXi98.Demo
+ switchport mode trunk
+ channel-group 98 mode on
+!
+interface GigabitEthernet1/0/5
+ switchport access vlan 101
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/6
+ switchport access vlan 101
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/7
+ switchport access vlan 251
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/8
+ switchport access vlan 247
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/9
+ switchport access vlan 251
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/10
+ switchport access vlan 247
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/11
+!
+interface GigabitEthernet1/0/12
+!
+interface GigabitEthernet1/0/13
+!
+interface GigabitEthernet1/0/14
+!
+interface GigabitEthernet1/0/15
+!
+interface GigabitEthernet1/0/16
+ description TO-ESXi97.Demo
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/17
+!
+interface GigabitEthernet1/0/18
+!
+interface GigabitEthernet1/0/19
+ description TO-TestBed.trunk
+ switchport trunk allowed vlan 101,2009,2251,2260
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/20
+ description TO-Internet.SW
+ switchport trunk allowed vlan 2251,2260
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/21
+ switchport trunk allowed vlan 2104
+ switchport mode trunk
+ channel-group 1 mode on
+!
+interface GigabitEthernet1/0/22
+ switchport trunk allowed vlan 2104
+ switchport mode trunk
+ channel-group 1 mode on
+!
+interface GigabitEthernet1/0/23
+ description DMZ.Siemens-TO-Fortinat
+ switchport trunk allowed vlan 2104
+ switchport mode trunk
+ channel-group 128 mode active
+!
+interface GigabitEthernet1/0/24
+ description DMZ.Siemens-TO-Fortinat
+ switchport trunk allowed vlan 2104
+ switchport mode trunk
+ channel-group 128 mode active
+!
+interface GigabitEthernet1/1/1
+!
+interface GigabitEthernet1/1/2
+!
+interface GigabitEthernet1/1/3
+!
+interface GigabitEthernet1/1/4
+!
+interface TenGigabitEthernet1/1/1
+!
+interface TenGigabitEthernet1/1/2
+!
+interface TenGigabitEthernet1/1/3
+!
+interface TenGigabitEthernet1/1/4
+!
+interface Vlan1
+ no ip address
+!
+interface Vlan10
+ ip address 121.42.15.158 255.255.255.252
+!
+interface Vlan100
+ ip address 10.11.100.254 255.255.255.0
+!
+interface Vlan101
+ ip address 10.11.101.254 255.255.255.0
+!
+interface Vlan102
+ ip address 10.11.102.254 255.255.255.0
+!
+interface Vlan103
+ ip address 10.11.103.254 255.255.255.0
+!
+interface Vlan2005
+ ip address 10.11.5.11 255.255.255.240
+!
+interface Vlan2009
+ ip address 10.11.9.254 255.255.255.0
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+ip route 0.0.0.0 0.0.0.0 10.11.5.1
+ip route 10.11.8.0 255.255.254.0 10.11.9.50
+ip ssh version 2
+!
+!
+logging trap debugging
+logging host 10.11.35.150 transport tcp port 514
+!
+snmp-server community public RO
+snmp-server host 10.11.16.33 version 2c public 
+!
+no vstack
+!
+line con 0
+ exec-timeout 5 0
+ login local
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login local
+ transport input ssh
+!
+ntp server 10.11.105.201 source Vlan100
+wsma agent exec
+ profile httplistener
+ profile httpslistener
+!
+wsma agent config
+ profile httplistener
+ profile httpslistener
+!
+wsma agent filesys
+ profile httplistener
+ profile httpslistener
+!
+wsma agent notify
+ profile httplistener
+ profile httpslistener
+!
+!
+wsma profile listener httplistener
+ transport http
+!
+wsma profile listener httpslistener
+ transport https
+!
+ap group default-group
+end

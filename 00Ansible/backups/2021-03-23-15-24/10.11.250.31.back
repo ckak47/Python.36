@@ -1,0 +1,516 @@
+Building configuration...
+
+Current configuration : 10574 bytes
+!
+! Last configuration change at 09:16:09 UTC Thu Dec 31 2020 by Z003NH3W
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+service compress-config
+!
+hostname CN.SZ.CDC.PRO.Core
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-vrf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+logging buffered 4096000
+!
+username Z003NUET privilege 15 secret 5 $1$9Ss9$vp6pLDcPsAYGwMC8co08r.
+username Z003NH3W privilege 15 secret 5 $1$/2iM$YJnJMvJ.lNxl5AwR.EQyz0
+aaa new-model
+!
+!
+aaa authorization exec default local 
+aaa local authentication attempts max-fail 3
+!
+aaa common-criteria policy policy1
+ min-length 10
+ max-length 127
+ numeric-count 2
+ upper-case 2
+ lower-case 2
+ special-case 2
+ char-changes 4
+ lifetime month 3
+!
+!
+!
+!
+!
+!
+aaa session-id common
+clock timezone UTC 8 0
+switch 1 provision ws-c3850-24t
+switch 2 provision ws-c3850-24t
+!
+!
+!
+!
+!
+ip routing
+!
+no ip domain-lookup
+!
+!
+qos queue-softmax-multiplier 100
+!
+crypto pki trustpoint TP-self-signed-2962686219
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-2962686219
+ revocation-check none
+ rsakeypair TP-self-signed-2962686219
+!
+!
+crypto pki certificate chain TP-self-signed-2962686219
+ certificate self-signed 01
+  3082022B 30820194 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 32393632 36383632 3139301E 170D3136 31323036 30323138 
+  34315A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D32 39363236 
+  38363231 3930819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  810091A8 8E5625C5 8410A4E8 4992B2EF 5AE6581C 0572C1E1 955178D0 A5233C65 
+  33201352 4A22F995 0FDC1055 5FD2A9EF CFDC9509 B8B1653E 86D65A1F 2EE45FA1 
+  6C6B8CA0 3CF2274B 63D50846 EAF98A8A EAE00D8B 83B99346 B41AEA99 9FEC29D2 
+  7E7A022B 29A07ADE 97C06D6E D38FEF19 E5306764 8BA424DC 27DB9337 C7258A95 
+  43550203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 301F0603 
+  551D2304 18301680 1429B6B9 1732B3C4 B2941CD5 25CA9806 E9E1E225 79301D06 
+  03551D0E 04160414 29B6B917 32B3C4B2 941CD525 CA9806E9 E1E22579 300D0609 
+  2A864886 F70D0101 05050003 81810040 A44398AD EA561F3C CE6B5573 A8D67197 
+  57D8BF07 3D84C346 056374B3 301FCE6A 913BE6EA 7EFE0846 10C56B5E 1F1AE052 
+  7B0FBDD6 587D973F 221F51F8 6BA77124 0D0407C4 4913B8BA F3ECD743 563E7A67 
+  EAD755F2 3A06BB1A 6FFFFA92 DA461425 CC72A6C2 D18E21DD 2C2B68F1 DA1BB07F 
+  AF5C4592 E7A330B7 DCFDC177 BD2407
+  	quit
+diagnostic bootup level minimal
+port-channel load-balance src-dst-ip
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+hw-switch switch 1 logging onboard message level 3
+hw-switch switch 2 logging onboard message level 3
+!
+redundancy
+ mode sso
+!
+!
+vlan 2128
+ name WP3
+!
+vlan 2129
+ name WP3-bak
+!
+vlan 2130
+ name WP4
+!
+vlan 2131
+ name WP4-bak
+!
+vlan 2132
+ name Arcsight Manager
+!
+vlan 2133
+ name Mcafee ESM
+!
+vlan 2134
+ name Shared Services
+!
+vlan 2135
+ name WP6
+!
+vlan 2136
+ name MongoDB
+!
+vlan 2137
+ name WP5
+!
+vlan 2138
+ name WP5-bak
+!
+vlan 2140
+ name New.CDC.Kafka
+!
+vlan 2141
+ name New.CDC.Logstash
+!
+vlan 2142
+ name New.CDC.Elastic
+!
+vlan 2143
+ name Temp.OSA
+!
+vlan 2144
+ name Performance.monitor
+!
+vlan 2148
+ name JIRA
+!
+vlan 2149
+ name SIEM
+!
+vlan 2160
+ name DataAnalyze
+!
+!
+class-map match-any non-client-nrt-class
+!
+policy-map port_child_policy
+ class non-client-nrt-class
+  bandwidth remaining ratio 10
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface Port-channel1
+ switchport trunk allowed vlan 2128-2160
+ switchport mode trunk
+!
+interface Port-channel2
+ switchport trunk allowed vlan 2128-2160
+ switchport mode trunk
+!
+interface Port-channel3
+ switchport trunk allowed vlan 2128-2160
+ switchport mode trunk
+!
+interface Port-channel4
+ switchport trunk allowed vlan 2128-2160
+ switchport mode trunk
+!
+interface Port-channel5
+ switchport trunk allowed vlan 2128-2160
+ switchport mode trunk
+!
+interface Port-channel6
+ switchport trunk allowed vlan 2128-2160
+ switchport mode trunk
+!
+interface Port-channel7
+ switchport trunk allowed vlan 2149
+ switchport mode trunk
+!
+interface Port-channel8
+ switchport mode trunk
+!
+interface Port-channel128
+ switchport mode trunk
+!
+interface GigabitEthernet0/0
+ vrf forwarding Mgmt-vrf
+ ip address 10.11.250.31 255.255.255.0
+ negotiation auto
+!
+interface GigabitEthernet1/0/1
+ switchport trunk allowed vlan 2128-2160
+ switchport mode trunk
+ channel-group 1 mode on
+!
+interface GigabitEthernet1/0/2
+ switchport trunk allowed vlan 2128-2160
+ switchport mode trunk
+ channel-group 2 mode on
+!
+interface GigabitEthernet1/0/3
+ switchport trunk allowed vlan 2128-2160
+ switchport mode trunk
+ channel-group 3 mode on
+!
+interface GigabitEthernet1/0/4
+ switchport trunk allowed vlan 2128-2160
+ switchport mode trunk
+ channel-group 4 mode on
+!
+interface GigabitEthernet1/0/5
+ switchport trunk allowed vlan 2128-2160
+ switchport mode trunk
+ channel-group 5 mode on
+!
+interface GigabitEthernet1/0/6
+ switchport trunk allowed vlan 2128-2160
+ switchport mode trunk
+ channel-group 6 mode on
+!
+interface GigabitEthernet1/0/7
+ switchport trunk allowed vlan 2149
+ switchport mode trunk
+ channel-group 7 mode on
+!
+interface GigabitEthernet1/0/8
+ description TO-JIRA
+ switchport mode trunk
+ channel-group 8 mode on
+!
+interface GigabitEthernet1/0/9
+ shutdown
+!
+interface GigabitEthernet1/0/10
+ shutdown
+!
+interface GigabitEthernet1/0/11
+ shutdown
+!
+interface GigabitEthernet1/0/12
+ shutdown
+!
+interface GigabitEthernet1/0/13
+ shutdown
+!
+interface GigabitEthernet1/0/14
+ shutdown
+!
+interface GigabitEthernet1/0/15
+ switchport trunk allowed vlan 2128-2148
+ switchport mode trunk
+ shutdown
+!
+interface GigabitEthernet1/0/16
+ shutdown
+!
+interface GigabitEthernet1/0/17
+ shutdown
+!
+interface GigabitEthernet1/0/18
+ shutdown
+!
+interface GigabitEthernet1/0/19
+ shutdown
+!
+interface GigabitEthernet1/0/20
+ shutdown
+!
+interface GigabitEthernet1/0/21
+ description TO-ESXi.10.11.246.232
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/22
+ switchport access vlan 2133
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/23
+ description TO.ESXi.DA
+ switchport mode trunk
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/24
+ switchport mode trunk
+ channel-group 128 mode on
+!
+interface GigabitEthernet1/1/1
+!
+interface GigabitEthernet1/1/2
+!
+interface GigabitEthernet1/1/3
+!
+interface GigabitEthernet1/1/4
+!
+interface TenGigabitEthernet1/1/1
+!
+interface TenGigabitEthernet1/1/2
+!
+interface TenGigabitEthernet1/1/3
+!
+interface TenGigabitEthernet1/1/4
+!
+interface GigabitEthernet2/0/1
+ switchport trunk allowed vlan 2128-2160
+ switchport mode trunk
+ channel-group 1 mode on
+!
+interface GigabitEthernet2/0/2
+ switchport trunk allowed vlan 2128-2160
+ switchport mode trunk
+ channel-group 2 mode on
+!
+interface GigabitEthernet2/0/3
+ switchport trunk allowed vlan 2128-2160
+ switchport mode trunk
+ channel-group 3 mode on
+!
+interface GigabitEthernet2/0/4
+ switchport trunk allowed vlan 2128-2160
+ switchport mode trunk
+ channel-group 4 mode on
+!
+interface GigabitEthernet2/0/5
+ switchport trunk allowed vlan 2128-2160
+ switchport mode trunk
+ channel-group 5 mode on
+!
+interface GigabitEthernet2/0/6
+ switchport trunk allowed vlan 2128-2160
+ switchport mode trunk
+ channel-group 6 mode on
+!
+interface GigabitEthernet2/0/7
+ switchport trunk allowed vlan 2149
+ switchport mode trunk
+ channel-group 7 mode on
+!
+interface GigabitEthernet2/0/8
+ description TO-JIRA
+ switchport mode trunk
+ channel-group 8 mode on
+!
+interface GigabitEthernet2/0/9
+ shutdown
+!
+interface GigabitEthernet2/0/10
+ shutdown
+!
+interface GigabitEthernet2/0/11
+ shutdown
+!
+interface GigabitEthernet2/0/12
+ shutdown
+!
+interface GigabitEthernet2/0/13
+ shutdown
+!
+interface GigabitEthernet2/0/14
+ shutdown
+!
+interface GigabitEthernet2/0/15
+ shutdown
+!
+interface GigabitEthernet2/0/16
+ shutdown
+!
+interface GigabitEthernet2/0/17
+ shutdown
+!
+interface GigabitEthernet2/0/18
+ shutdown
+!
+interface GigabitEthernet2/0/19
+ shutdown
+!
+interface GigabitEthernet2/0/20
+ shutdown
+!
+interface GigabitEthernet2/0/21
+ description TO-ESXi.10.11.246.233
+ switchport mode trunk
+!
+interface GigabitEthernet2/0/22
+ switchport access vlan 2133
+ switchport mode access
+ shutdown
+ spanning-tree portfast
+!
+interface GigabitEthernet2/0/23
+ description TO-ESXi.10.11.247.144
+ switchport mode trunk
+!
+interface GigabitEthernet2/0/24
+ switchport mode trunk
+ channel-group 128 mode on
+!
+interface GigabitEthernet2/1/1
+!
+interface GigabitEthernet2/1/2
+!
+interface GigabitEthernet2/1/3
+!
+interface GigabitEthernet2/1/4
+!
+interface TenGigabitEthernet2/1/1
+!
+interface TenGigabitEthernet2/1/2
+!
+interface TenGigabitEthernet2/1/3
+!
+interface TenGigabitEthernet2/1/4
+!
+interface Vlan1
+ no ip address
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+ip route vrf Mgmt-vrf 0.0.0.0 0.0.0.0 10.11.250.254
+ip ssh version 2
+!
+!
+logging trap debugging
+logging host 10.11.35.150 transport tcp port 514
+!
+snmp-server community public RO
+snmp-server host 10.11.16.33 version 2c public 
+!
+!
+!
+no vstack
+!
+line con 0
+ exec-timeout 5 0
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ transport input ssh
+line vty 5 15
+ transport input ssh
+!
+!
+monitor session 1 source interface Po1 , Po2 , Po3 , Po4 , Po5 , Po6 , Po7 , Po8
+monitor session 1 destination interface Gi1/0/13
+monitor session 1 destination interface Gi2/0/13
+ntp server 10.11.105.201
+wsma agent exec
+ profile httplistener
+ profile httpslistener
+!
+wsma agent config
+ profile httplistener
+ profile httpslistener
+!
+wsma agent filesys
+ profile httplistener
+ profile httpslistener
+!
+wsma agent notify
+ profile httplistener
+ profile httpslistener
+!
+!
+wsma profile listener httplistener
+ transport http
+!
+wsma profile listener httpslistener
+ transport https
+mac address-table static 0050.5689.5954 vlan 2128 interface Port-channel1 
+mac address-table static 0050.5689.7f58 vlan 2128 interface Port-channel1 
+mac address-table static 0050.5689.1831 vlan 2128 interface Port-channel2 
+mac address-table static 0050.5689.146b vlan 2128 interface Port-channel1 
+mac address-table static 0050.5689.41d7 vlan 2128 interface Port-channel2 
+mac address-table static 0050.5689.6b6d vlan 2136 interface Port-channel1 
+mac address-table static 0050.5689.12eb vlan 2136 interface Port-channel1 
+mac address-table static 0050.5689.3931 vlan 2137 interface Port-channel1 
+mac address-table static 0050.5689.68d4 vlan 2137 interface Port-channel1 
+!
+ap group default-group
+end

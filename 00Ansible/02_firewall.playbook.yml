@@ -1,0 +1,61 @@
+---
+- hosts: fortigates
+  collections:
+    - fortinet.fortios
+  connection: httpapi
+  vars:
+    vdom: "0"
+    ansible_httpapi_use_ssl: yes
+    ansible_httpapi_validate_certs: no
+    ansible_httpapi_port: 443
+  tasks:
+    - name: Backup current config
+      fortios_config:
+        host: "{{ ansible_host }}"
+        username: "{{ ansible_user }}"
+        password: "{{ ansible_password }}"
+        backup_path: ./forti_backup/
+        backup: yes
+
+
+
+#    - name: gather basic system status facts
+#      fortios_facts:
+#        host: "{{ ansible_host }}"
+#        username: "{{ ansible_user }}"
+#        password: "{{ ansible_password }}"
+#        vdom: "{{ vdom }}"
+#        gather_subset:
+#          - fact: 'system_status_select'
+#
+#    - name: gather all physical interfaces status facts
+#      fortios_facts:
+#        host: "{{ ansible_host }}"
+#        username: "{{ ansible_user }}"
+#        password: "{{ ansible_password }}"
+#        vdom: "{{ vdom }}"
+#        gather_subset:
+#          - fact: 'system_interface_select'
+#
+#    - name: gather gather all physical and vlan interfaces status facts
+#      fortios_facts:
+#        host: "{{ ansible_host }}"
+#        username: "{{ ansible_user }}"
+#        password: "{{ ansible_password }}"
+#        vdom: "{{ vdom }}"
+#        gather_subset:
+#          - fact: 'system_interface_select'
+#            filters:
+#              - include_vlan: true
+#
+#    - name: gather basic system info and physical interface port3 status facts
+#      fortios_facts:
+#        host: "{{ ansible_host }}"
+#        username: "{{ ansible_user }}"
+#        password: "{{ ansible_password }}"
+#        vdom: "{{ vdom }}"
+#        gather_subset:
+#          - fact: 'system_status_select'
+#          - fact: 'system_interface_select'
+#            filters:
+#              - interface_name: 'port9'

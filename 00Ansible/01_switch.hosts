@@ -1,0 +1,91 @@
+# This is the default ansible 'hosts' file.
+#
+# It should live in /etc/ansible/hosts
+#
+#   - Comments begin with the '#' character
+#   - Blank lines are ignored
+#   - Groups of hosts are delimited by [header] elements
+#   - You can enter hostnames or ip addresses
+#   - A hostname/ip can be a member of multiple groups
+
+# Ex 1: Ungrouped hosts, specify before any group headers.
+
+#green.example.com
+#blue.example.com
+#192.168.100.1
+#192.168.100.10
+
+# Ex 2: A collection of hosts belonging to the 'webservers' group
+
+#[webservers]
+#alpha.example.org
+#beta.example.org
+#192.168.1.100
+#192.168.1.110
+
+# If you have multiple hosts following a pattern you can specify
+# them like this:
+
+#www[001:006].example.com
+
+# Ex 3: A collection of database servers in the 'dbservers' group
+
+#[dbservers]
+#
+#db01.intranet.mydomain.net
+#db02.intranet.mydomain.net
+#10.25.1.56
+#10.25.1.57
+
+# Here's another example of host ranges, this time there are no
+# leading 0s:
+
+#db-[99:101]-node.example.com
+
+
+[all:vars]
+# these defaults can be overridden for any group in the [group:vars] section
+ansible_connection=ansible.netcommon.network_cli
+
+[switches:children]
+ios_l3
+ios_l2
+
+[ios_l3]
+# 10.11.100.254.CN.SZ.CDC.DEMO.Core
+CN.SZ.CDC.DEMO.Core ansible_host=10.11.100.254
+# 10.11.251.254.CN.SZ.CDC.Manage.Core
+CN.SZ.CDC.Manage.Core ansible_host=10.11.251.254
+# 10.11.250.31.CN.SZ.CDC.PRO.Core
+CN.SZ.CDC.PRO.Core ansible_host=10.11.250.31
+# 10.11.0.254.CN.SZ.CDC.Dev.Core
+CN.SZ.CDC.Dev.Core ansible_host=10.11.0.254
+
+[ios_l2]
+# 10.11.9.253.TestBed
+TestBed ansible_host=10.11.9.253
+# 10.11.251.13.CN.SZ.CDC.Manage.ACC01
+CN.SZ.CDC.Manage.ACC01 ansible_host=10.11.251.13
+# 10.11.251.14.CN.SZ.CDC.Manage.ACC02
+CN.SZ.CDC.Manage.ACC02 ansible_host=10.11.251.14
+# 10.11.251.15.CN.SZ.CDC.Manage.ACC03
+CN.SZ.CDC.Manage.ACC03 ansible_host=10.11.251.15
+# 10.11.251.16.CN.SZ.CDC.Manage.ACC04
+CN.SZ.CDC.Manage.ACC04 ansible_host=10.11.251.16
+# 10.11.251.23.CN.SZ.CDC.Dev.ACC01
+CN.SZ.CDC.Dev.ACC01 ansible_host=10.11.251.23
+# 10.11.251.24.CN.SZ.CDC.Dev.ACC02
+CN.SZ.CDC.Dev.ACC02 ansible_host=10.11.251.24
+# 10.11.251.25.CN.SZ.CDC.Dev.ACC03
+CN.SZ.CDC.Dev.ACC03 ansible_host=10.11.251.25
+# 10.11.16.253.CN.SZ.CDC.Dev.ACC04
+CN.SZ.CDC.Dev.ACC04 ansible_host=10.11.16.253
+# 10.11.250.37.CN.SZ.CDC.DLP.ACC01
+CN.SZ.CDC.DLP.ACC01 ansible_host=10.11.250.37
+
+[switches:vars]
+ansible_become=yes
+ansible_become_method=enable
+ansible_network_os=cisco.ios.ios
+ansible_user=Z003NH3W
+ansible_password=zQs4KbBHCHWrrXBDF5Af

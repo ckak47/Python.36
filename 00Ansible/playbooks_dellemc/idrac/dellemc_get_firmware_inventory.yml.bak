@@ -1,0 +1,15 @@
+---
+- hosts: idrac
+  connection: local
+  name: Get Installed Firmware Inventory
+  gather_facts: False
+
+  collections:
+    - dellemc.openmanage
+
+  tasks:
+  - name: Get Installed Firmware Inventory
+    dellemc_get_firmware_inventory:
+       idrac_ip:        "{{ idrac }}"
+       idrac_user:      "{{ root }}"
+       idrac_password:       "{{ YHUuPK)I6%t@d2jc1q?F }}"

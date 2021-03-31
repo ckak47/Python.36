@@ -1,0 +1,525 @@
+Building configuration...
+
+Current configuration : 11649 bytes
+!
+! Last configuration change at 13:38:47 UTC Fri Mar 19 2021
+! NVRAM config last updated at 13:38:49 UTC Fri Mar 19 2021
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname CD.SZ.CDC.Dev.ACC04
+!
+boot-start-marker
+boot-end-marker
+!
+logging buffered 4096000
+enable secret 5 $1$6zXC$IMj/a8ERalxVs7HIW/YYb0
+!
+username admin privilege 15 secret 5 $1$jxiG$m0cHY7iGP8n4Nji7Uoqi41
+username Z003NUET privilege 15 secret 5 $1$Vzvw$K5uw8eyhek0hyTBZcVuEU0
+username Z003NH3W privilege 15 secret 5 $1$F.Cq$Y7O0kRsxOx0xgad5QMkur.
+no aaa new-model
+clock timezone UTC 8 0
+switch 1 provision ws-c2960x-48td-l
+ip routing
+!
+!
+no ip domain-lookup
+vtp mode transparent
+!
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-1152241024
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-1152241024
+ revocation-check none
+ rsakeypair TP-self-signed-1152241024
+!
+!
+crypto pki certificate chain TP-self-signed-1152241024
+ certificate self-signed 01
+  3082022B 30820194 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31313532 32343130 3234301E 170D3137 30363236 30373536 
+  33385A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D31 31353232 
+  34313032 3430819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  81009C12 465F8FA8 9EA7B746 E2E6F5F2 726C966F 18468DA5 2135A81B FA42B081 
+  FCE857FD A6F2E54F C78B95B4 81BEF2A4 AAA15297 5FAFAE17 1F6ED546 505393AE 
+  2F1A6368 612C33B5 3EDF4710 47AE11C1 0F0A0472 1105A92D 631561B9 DF344AA5 
+  88FB05A0 453F2294 CCBA7BEF 6225C3C0 1004B9AC 70AC1AE2 67B9A292 160C0F2A 
+  A82F0203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 301F0603 
+  551D2304 18301680 141B2717 7564900E B7C2B1E1 9B39D69B B0721F61 F0301D06 
+  03551D0E 04160414 1B271775 64900EB7 C2B1E19B 39D69BB0 721F61F0 300D0609 
+  2A864886 F70D0101 05050003 81810010 298D7A4E 880F4DC1 06C64276 7258AEC1 
+  1DDC359B 9BE3CC94 9B3220DF DD5EBC35 8D4978AD B93A7C29 47C46F6A A22576C0 
+  8A42FA2E 4693FE36 13786511 6813522C 42F4C8AC 95AF6F7A 96C26812 FFD33F8A 
+  7F974A02 F6F0D606 3EFB3370 8ECA8FA8 10F1B85B A06A9605 96D36D83 3F5E6CA7 
+  43E81FF7 E10D2E8F DBE92DB1 67E9FE
+  	quit
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+port-channel load-balance src-dst-ip
+!
+!
+!
+!
+vlan internal allocation policy ascending
+!
+vlan 1000
+ name RSPAN
+ remote-span
+!
+vlan 1997
+ name PPPoE03
+!
+vlan 1998
+ name PPPoE02
+!
+vlan 1999
+ name PPPoE01
+!
+vlan 2016
+ name CDC Services
+!
+vlan 2032
+ name yangrongju
+!
+vlan 2033
+ name yuqi
+!
+vlan 2034
+ name chenkang
+!
+vlan 2035
+ name chengjia
+!
+vlan 2036
+ name chenjianhua
+!
+vlan 2037
+ name wangzhuolong
+!
+vlan 2038
+ name caoleiallen
+!
+vlan 2039
+ name daipeng
+!
+vlan 2040
+ name daijun
+!
+vlan 2041
+ name xujianwei
+!
+vlan 2042
+ name zhaotian
+!
+vlan 2045
+ name caoleileo
+!
+vlan 2046
+ name lintao
+!
+vlan 2047
+ name jiangxueqing
+!
+vlan 2048
+ name chencanlin
+!
+vlan 2049
+ name zhengwenjing
+!
+vlan 2050
+ name sunzhuli
+!
+vlan 2051
+ name wangyan
+!
+vlan 2052
+ name xuzhihao
+!
+vlan 2053
+ name zhanghui
+!
+vlan 2054
+ name wuhongfeng
+!
+vlan 2056
+ name yuyue
+!
+vlan 2057
+ name songjie
+!
+vlan 2058
+ name xuchunxia
+!
+vlan 2059
+ name chenlili
+!
+vlan 2060
+ name OSA
+!
+vlan 2061
+ name RAPC
+!
+vlan 2062
+ name DLP
+!
+vlan 2063
+ name Integration
+!
+vlan 2066
+ name wangzhe
+!
+vlan 2071
+ name HuLei
+!
+vlan 2247
+ name VMkernal
+!
+vlan 2251
+ name iDRAC
+!
+vlan 3000
+ name SEWC_Simulation
+!
+lldp run
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+interface FastEthernet0
+ no ip address
+ no ip route-cache
+!
+interface GigabitEthernet1/0/1
+ description OSA
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/2
+ description OSA
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/3
+ description OSA
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/4
+ description TO-ESXi.251
+ switchport mode trunk
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/5
+!
+interface GigabitEthernet1/0/6
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/7
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/8
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/9
+!
+interface GigabitEthernet1/0/10
+!
+interface GigabitEthernet1/0/11
+!
+interface GigabitEthernet1/0/12
+!
+interface GigabitEthernet1/0/13
+ description OSA
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/14
+ description OSA
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/15
+ description OSA
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/16
+ description OSA
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/17
+ description OSA
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/18
+ description OSA
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/19
+ description OSA
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/20
+ description OSA
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/21
+ description OSA
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/22
+ description OSA
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/23
+ switchport access vlan 2034
+!
+interface GigabitEthernet1/0/24
+ switchport access vlan 2034
+!
+interface GigabitEthernet1/0/25
+!
+interface GigabitEthernet1/0/26
+ description OSA
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/27
+ description OSA
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/28
+ description OSA
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/29
+ description OSA
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/30
+ description OSA
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/31
+!
+interface GigabitEthernet1/0/32
+!
+interface GigabitEthernet1/0/33
+!
+interface GigabitEthernet1/0/34
+!
+interface GigabitEthernet1/0/35
+!
+interface GigabitEthernet1/0/36
+!
+interface GigabitEthernet1/0/37
+!
+interface GigabitEthernet1/0/38
+!
+interface GigabitEthernet1/0/39
+ description TO-WangZhe
+ switchport access vlan 2066
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/40
+ description TO-WangZhe
+ switchport access vlan 2066
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/41
+ description nozomi
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/42
+ description TO-WangZhe
+ switchport access vlan 2066
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/43
+ description TO-WangZhe
+ switchport access vlan 2066
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/44
+ description TO-Allen-Securityonion
+ switchport access vlan 2038
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/45
+ description TO-ESXi.RAPC.DATA
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/46
+ description TO-ESXi.16.251
+ switchport access vlan 2016
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/47
+ description TO-Allen-CUDA
+ switchport access vlan 2038
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/48
+ description TO-CD.SZ.CDC.Dev.ACC03
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/49
+!
+interface GigabitEthernet1/0/50
+!
+interface TenGigabitEthernet1/0/1
+!
+interface TenGigabitEthernet1/0/2
+!
+interface Vlan1
+ no ip address
+!
+interface Vlan2016
+ ip address 10.11.16.253 255.255.255.0
+!
+ip default-gateway 10.11.16.254
+ip http server
+ip http secure-server
+!
+ip route 0.0.0.0 0.0.0.0 10.11.16.254
+!
+logging trap debugging
+logging source-interface Vlan2016
+logging host 10.11.60.83
+!
+snmp-server user remoteuser1 group1 v3 
+snmp-server group group1 v3 noauth 
+snmp-server group group2 v3 auth 
+snmp-server group group3 v3 priv context vlan-2060 
+snmp-server view MIB-2 mib-2 included
+snmp-server community public RO
+snmp-server enable traps snmp authentication linkdown linkup coldstart warmstart
+snmp-server enable traps transceiver all
+snmp-server enable traps call-home message-send-fail server-fail
+snmp-server enable traps tty
+snmp-server enable traps license
+snmp-server enable traps auth-framework sec-violation
+snmp-server enable traps cluster
+snmp-server enable traps config-copy
+snmp-server enable traps config
+snmp-server enable traps config-ctid
+snmp-server enable traps trustsec-sxp conn-srcaddr-err msg-parse-err conn-config-err binding-err conn-up conn-down binding-expn-fail oper-nodeid-change binding-conflict
+snmp-server enable traps energywise
+snmp-server enable traps fru-ctrl
+snmp-server enable traps entity
+snmp-server enable traps event-manager
+snmp-server enable traps ike policy add
+snmp-server enable traps ike policy delete
+snmp-server enable traps ike tunnel start
+snmp-server enable traps ike tunnel stop
+snmp-server enable traps ipsec cryptomap add
+snmp-server enable traps ipsec cryptomap delete
+snmp-server enable traps ipsec cryptomap attach
+snmp-server enable traps ipsec cryptomap detach
+snmp-server enable traps ipsec tunnel start
+snmp-server enable traps ipsec tunnel stop
+snmp-server enable traps ipsec too-many-sas
+snmp-server enable traps power-ethernet police
+snmp-server enable traps cpu threshold
+snmp-server enable traps vstack
+snmp-server enable traps bridge newroot topologychange
+snmp-server enable traps stpx inconsistency root-inconsistency loop-inconsistency
+snmp-server enable traps syslog
+snmp-server enable traps vtp
+snmp-server enable traps vlancreate
+snmp-server enable traps vlandelete
+snmp-server enable traps flash insertion removal
+snmp-server enable traps port-security
+snmp-server enable traps envmon fan shutdown supply temperature status
+snmp-server enable traps stackwise
+snmp-server enable traps bulkstat collection transfer
+snmp-server enable traps errdisable
+snmp-server enable traps mac-notification change move threshold
+snmp-server enable traps vlan-membership
+snmp-server host 10.11.16.33 informs version 3 noauth remoteuser1  config
+snmp-server host 10.11.16.33 version 2c public 
+snmp-server host 10.11.60.3 version 2c public 
+!
+no vstack
+!
+line con 0
+line vty 0 4
+ password Passw0rd
+ login local
+ transport input ssh
+line vty 5 15
+ password Passw0rd
+ login local
+ transport input ssh
+!
+!
+monitor session 1 source vlan 1000
+monitor session 1 destination interface Gi1/0/9 - 14 , Gi1/0/31 - 38 encapsulation replicate
+monitor session 2 source interface Gi1/0/1 - 4 , Gi1/0/7 , Gi1/0/15 - 22 , Gi1/0/45
+monitor session 2 destination interface Gi1/0/5 encapsulation replicate
+ntp server 10.11.105.201 source Vlan2016
+ntp server 10.11.105.202 source Vlan2016
+end

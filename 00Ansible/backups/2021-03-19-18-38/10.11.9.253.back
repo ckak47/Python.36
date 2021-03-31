@@ -1,0 +1,224 @@
+Building configuration...
+
+Current configuration : 5256 bytes
+!
+! Last configuration change at 15:57:55 UTC Fri Mar 19 2021 by admin
+! NVRAM config last updated at 16:46:07 UTC Fri Mar 19 2021 by admin
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+!
+hostname Testbed
+!
+boot-start-marker
+boot-end-marker
+!
+logging buffered 4096000
+!
+username admin privilege 15 secret 5 $1$5KBQ$N9A7vaWhyJ/bN6vHLMzX8/
+username Z003NUET privilege 15 secret 5 $1$HROS$oytUdxJCEjypfsmyBN3A10
+username Z003NH3W privilege 15 secret 5 $1$eAS8$dmtpVGQK4oK6uH5YvYDnU.
+no aaa new-model
+clock timezone UTC 8 0
+switch 1 provision ws-c2960x-24td-l
+ip routing
+!
+!
+vtp mode transparent
+!
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-1156534016
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-1156534016
+ revocation-check none
+ rsakeypair TP-self-signed-1156534016
+!
+!
+crypto pki certificate chain TP-self-signed-1156534016
+ certificate self-signed 01
+  3082022B 30820194 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31313536 35333430 3136301E 170D3136 30393134 30333138 
+  35345A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D31 31353635 
+  33343031 3630819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  8100EC20 61CDC258 5DF21953 68A4812D 04019A18 8A750E1E 6B8CD721 065094AB 
+  57C15967 12373620 B11430B2 5E494851 1FC49D6D 315E4E55 CC50D1D0 51323993 
+  6CDF33D3 D327BE3D 9765C966 4E463F88 93BB7B50 9D8DAD69 A4D7A5D7 AE21DD54 
+  D6D44D03 68EA1B3A 634A727E 75C9AD3A E4E45DA8 E1FD252E FCF6F145 BBDFDC64 
+  C1050203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 301F0603 
+  551D2304 18301680 141FED59 FE2F9FAE 5437AEBD 6592353D 471FC667 62301D06 
+  03551D0E 04160414 1FED59FE 2F9FAE54 37AEBD65 92353D47 1FC66762 300D0609 
+  2A864886 F70D0101 05050003 818100DD 445AC37A 00C9BCCF 27303806 FFFF5A19 
+  833E8D0D 71BA1798 2EE9A984 D2B5214A 6358E9A9 7656936F B4677089 F0D1E03D 
+  AB82B527 404E5503 86953116 535EED3B 9532200D 42848215 10B03121 49B5D0F4 
+  CC2974EC DE4A411E 91EB0FE5 8DDEFE12 09D5B8B4 9CC2390D 510397FF 27C7140B 
+  B09F1F92 1CFF0E74 21BD9F67 CAF733
+  	quit
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+!
+!
+!
+vlan internal allocation policy ascending
+!
+vlan 101,1000-1001,2001-2004 
+!
+vlan 2009
+ name Testbed
+!
+lldp run
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+interface FastEthernet0
+ no ip address
+ no ip route-cache
+!
+interface GigabitEthernet1/0/1
+ switchport access vlan 2001
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/2
+ switchport access vlan 2002
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/3
+ switchport access vlan 2003
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/4
+ switchport access vlan 2004
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/5
+!
+interface GigabitEthernet1/0/6
+ description TO-ESXi-Dell-7040
+ switchport trunk native vlan 101
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/7
+ description TO-TestBed.RougerCom
+ switchport access vlan 2009
+ switchport mode access
+!
+interface GigabitEthernet1/0/8
+ description TO-TestBed.WinCCserver.847D
+ switchport access vlan 2009
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/9
+ description TO-Syberseer-sencer
+ switchport access vlan 2009
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/10
+ switchport access vlan 2009
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/11
+ switchport access vlan 2009
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/12
+ switchport access vlan 2009
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/13
+ switchport access vlan 2009
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/14
+ switchport access vlan 2009
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/15
+ switchport access vlan 2009
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/16
+!
+interface GigabitEthernet1/0/17
+!
+interface GigabitEthernet1/0/18
+!
+interface GigabitEthernet1/0/19
+!
+interface GigabitEthernet1/0/20
+!
+interface GigabitEthernet1/0/21
+!
+interface GigabitEthernet1/0/22
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/23
+!
+interface GigabitEthernet1/0/24
+!
+interface GigabitEthernet1/0/25
+!
+interface GigabitEthernet1/0/26
+!
+interface TenGigabitEthernet1/0/1
+!
+interface TenGigabitEthernet1/0/2
+!
+interface Vlan1
+ no ip address
+!
+interface Vlan2009
+ ip address 10.11.9.253 255.255.255.0
+!
+ip default-gateway 10.11.9.254
+ip http server
+ip http secure-server
+!
+ip route 0.0.0.0 0.0.0.0 10.11.9.254
+!
+!
+snmp-server community public RO
+snmp-server host 10.11.16.33 version 2c public 
+!
+no vstack
+!
+line con 0
+line vty 0 4
+ login local
+line vty 5 15
+ login local
+!
+!
+monitor session 4 source interface Gi1/0/1 - 4 , Gi1/0/7
+monitor session 4 destination interface Gi1/0/16 - 21 , Gi1/0/23 - 24 encapsulation replicate
+ntp server 10.11.105.201 source Vlan2009
+end

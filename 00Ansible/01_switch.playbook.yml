@@ -1,0 +1,42 @@
+---
+- name: "Demonstrate connecting to switches"
+  hosts: switches
+  gather_facts: no
+
+  tasks:
+    ###
+    # Collect data
+    #
+
+    - name: Gather facts (ios)
+      cisco.ios.ios_facts:
+      when: ansible_network_os == 'cisco.ios.ios'
+
+    ###
+    # Demonstrate variables
+    #
+    - name: Display some facts
+      debug:
+        msg: "The hostname is {{ ansible_net_hostname }} and the OS is {{ ansible_net_version }}"
+
+    ###
+    # Get running configuration
+    #
+
+    - name: Backup switch (ios)
+      cisco.ios.ios_config:
+        backup: yes
+      register: backup_ios_location
+      when: ansible_network_os == 'cisco.ios.ios'
+
+    - name: Create backup dir
+      file:
+        path: "/mnt/c/Users/Z003NH3W/OneDrive/PycharmProjects/Python.36/00Ansible/backups/{{ lookup('pipe','date +%Y-%m-%d-%H-%M') }}"
+        state: directory
+        recurse: yes
+
+    - name: Copy backup files into /xxxx-xx-xx/backups/ (ios)
+      copy:
+        src: "{{ backup_ios_location.backup_path }}"
+        dest: "/mnt/c/Users/Z003NH3W/OneDrive/PycharmProjects/Python.36/00Ansible/backups/{{ lookup('pipe','date +%Y-%m-%d-%H-%M') }}/{{ inventory_hostname }}.txt"
+      when: ansible_network_os == 'cisco.ios.ios'

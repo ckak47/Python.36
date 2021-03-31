@@ -1,0 +1,233 @@
+Building configuration...
+
+Current configuration : 4942 bytes
+!
+! Last configuration change at 14:46:44 UTC Fri Mar 26 2021 by Z003NH3W
+! NVRAM config last updated at 09:09:07 UTC Wed Jun 20 2018 by Z003NH3W
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+!
+hostname CN.SZ.CDC.DLP.ACC01
+!
+boot-start-marker
+boot-end-marker
+!
+logging buffered 4096000
+!
+username Z003NUET privilege 15 secret 5 $1$9Ss9$vp6pLDcPsAYGwMC8co08r.
+username Z003NH3W privilege 15 secret 5 $1$/2iM$YJnJMvJ.lNxl5AwR.EQyz0
+no aaa new-model
+clock timezone UTC 8 0
+switch 1 provision ws-c2960x-24td-l
+ip routing
+!
+!
+ip domain-name dlpsw01.siemens.com
+vtp mode transparent
+!
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-1156936832
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-1156936832
+ revocation-check none
+ rsakeypair TP-self-signed-1156936832
+!
+!
+crypto pki certificate chain TP-self-signed-1156936832
+ certificate self-signed 01
+  3082022B 30820194 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31313536 39333638 3332301E 170D3137 30393232 30383535 
+  31325A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D31 31353639 
+  33363833 3230819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  81008EC6 8437332D 10AEE89B B86DD30A 076D9A9B 2ED84286 D8430CB6 B36A4F5B 
+  6291CC41 C50C0B16 368267E8 6727750A 195C02E7 A5C3670A 78021E6E 0D10B79E 
+  F5173B5E 37205B19 4B965733 9C941D85 2CD0FE13 8DB6DC3C 4AC264A3 65A6DE34 
+  0C20196A E328091E 8E535511 08CBC7ED 5D1BDD0A F542D9A8 3439B91B 03E7A73B 
+  4EED0203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 301F0603 
+  551D2304 18301680 1490EA79 7F3E5B9D 34E7C510 C0ABE76D 41BEF9FB C1301D06 
+  03551D0E 04160414 90EA797F 3E5B9D34 E7C510C0 ABE76D41 BEF9FBC1 300D0609 
+  2A864886 F70D0101 05050003 8181001F 77E2C644 54265F78 30B84735 5FDD2D21 
+  155F8EF0 06B2BE14 90E2A0E7 8CE45959 0228D6FA 774105DF 223C4433 CA47AD7A 
+  C417C36A 60AD7ABA C42C4CFC EC14263F 58AF68AF DB674AFF B94F53D1 AE7ECC94 
+  C0D58AAE 12D8AADB 8654E27E AE5A3844 4335D1A9 E600986D AC729AA4 688586A3 
+  F730BF32 AEF36264 CCF120D0 440346
+  	quit
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+port-channel load-balance src-dst-ip
+!
+!
+!
+!
+vlan internal allocation policy ascending
+!
+vlan 2161
+ name DLP.DA
+!
+vlan 2192
+ name Logstash
+!
+vlan 2193
+ name ELK
+!
+vlan 2194
+ name kibana
+!
+vlan 2195
+ name Arcsight Manager
+!
+vlan 2196
+ name Arcsight Connector
+!
+vlan 2197
+ name Arcsight Console
+!
+vlan 2198
+ name Monitor
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+interface Port-channel1
+ switchport mode trunk
+!
+interface Port-channel2
+ switchport mode trunk
+!
+interface Port-channel3
+ switchport mode trunk
+!
+interface Port-channel6
+ switchport mode trunk
+!
+interface FastEthernet0
+ ip address 10.11.250.37 255.255.255.0
+ no ip route-cache
+!
+interface GigabitEthernet1/0/1
+ switchport mode trunk
+ channel-group 1 mode on
+!
+interface GigabitEthernet1/0/2
+ switchport mode trunk
+ channel-group 1 mode on
+!
+interface GigabitEthernet1/0/3
+ switchport mode trunk
+ channel-group 2 mode on
+!
+interface GigabitEthernet1/0/4
+ switchport mode trunk
+ channel-group 2 mode on
+!
+interface GigabitEthernet1/0/5
+ switchport mode trunk
+ channel-group 3 mode on
+!
+interface GigabitEthernet1/0/6
+ switchport mode trunk
+ channel-group 3 mode on
+!
+interface GigabitEthernet1/0/7
+ description TO-ESM-oneport
+ switchport access vlan 2195
+ switchport mode access
+!
+interface GigabitEthernet1/0/8
+ description TO-DLP.DA.ESXi
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/9
+ description TO-DLP.DA.ESXi
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/10
+ description TO-DLP.DA.ESXi
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/11
+ switchport mode trunk
+ channel-group 6 mode on
+!
+interface GigabitEthernet1/0/12
+ switchport mode trunk
+ channel-group 6 mode on
+!
+interface GigabitEthernet1/0/13
+!
+interface GigabitEthernet1/0/14
+!
+interface GigabitEthernet1/0/15
+!
+interface GigabitEthernet1/0/16
+!
+interface GigabitEthernet1/0/17
+!
+interface GigabitEthernet1/0/18
+!
+interface GigabitEthernet1/0/19
+!
+interface GigabitEthernet1/0/20
+!
+interface GigabitEthernet1/0/21
+!
+interface GigabitEthernet1/0/22
+!
+interface GigabitEthernet1/0/23
+!
+interface GigabitEthernet1/0/24
+ description TO-DLPFW01-ASA5510
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/25
+!
+interface GigabitEthernet1/0/26
+!
+interface TenGigabitEthernet1/0/1
+!
+interface TenGigabitEthernet1/0/2
+!
+interface Vlan1
+ no ip address
+!
+ip http server
+ip http secure-server
+!
+ip route 0.0.0.0 0.0.0.0 10.11.250.254
+ip ssh version 2
+!
+!
+snmp-server community public RO
+snmp-server host 10.11.16.33 version 2c public 
+!
+no vstack
+!
+line con 0
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login local
+ transport input ssh
+!
+ntp server 10.11.105.201
+end

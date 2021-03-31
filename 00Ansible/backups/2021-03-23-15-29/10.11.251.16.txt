@@ -1,0 +1,250 @@
+Building configuration...
+
+Current configuration : 5798 bytes
+!
+! Last configuration change at 06:48:21 UTC Tue Nov 26 2019 by admin
+! NVRAM config last updated at 06:48:22 UTC Tue Nov 26 2019 by admin
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname CN.SZ.CDC.Manage.ACC04
+!
+boot-start-marker
+boot-end-marker
+!
+!
+username admin privilege 15 secret 5 $1$se4R$05ovfyJ7giKQbdb8TRHeF/
+username Z003NUET privilege 15 secret 5 $1$t/6J$ZKDDMfsuRWG.5E0aIQmEn.
+username Z003NH3W privilege 15 secret 5 $1$l5gT$U1RPE25fHUv5wI1tgwbqF0
+no aaa new-model
+switch 1 provision ws-c2960x-24td-l
+!
+!
+no ip domain-lookup
+vtp mode transparent
+!
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-1156937088
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-1156937088
+ revocation-check none
+ rsakeypair TP-self-signed-1156937088
+!
+!
+crypto pki certificate chain TP-self-signed-1156937088
+ certificate self-signed 01
+  3082022B 30820194 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31313536 39333730 3838301E 170D3137 30333231 30323336 
+  34395A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D31 31353639 
+  33373038 3830819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  810093B0 D7504AD7 47D72CBA 863E5407 B19E3613 8A0BFA8F FA548E59 E5D7B36F 
+  C8C3AC5E 269399EE CD3EFCB2 02BAE14F A9E5DAE3 ECE89A72 906D88B2 5C00A7F1 
+  A82533F7 9A25E354 662555C5 AFD71F8B 777B6697 05F02E40 C10EE9D6 F5595BDA 
+  5CEA7B44 76D22F6F C71A9613 AFCCDD2E 087E970E EA0B4E17 8D421854 E5D5E75B 
+  2DC90203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 301F0603 
+  551D2304 18301680 1420B176 C142790B 88216984 4E088622 ED173453 42301D06 
+  03551D0E 04160414 20B176C1 42790B88 2169844E 088622ED 17345342 300D0609 
+  2A864886 F70D0101 05050003 81810034 C1AFC082 E132A2C0 928E1361 4CF4BD04 
+  ADDEBB25 187D7A17 6FBF42C0 82C9145B A0DBE793 9A453F4E A73E0437 FE7E993A 
+  6D10E1D5 F6EC0BA7 52ED377B C2F95433 4682B3D7 5B8410F8 E4FBBEA9 0BBF26DC 
+  47A5397B EEAB7BF9 0ACA25B5 02E2E596 E484B61A C4FAC763 57AFF483 6AE7F60A 
+  93FC18A9 1C77A9D7 80B0D732 8975F1
+  	quit
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+!
+!
+!
+vlan internal allocation policy ascending
+!
+vlan 2247
+ name VMkernal
+!
+vlan 2251
+ name iDRAC
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+interface Port-channel24
+ switchport trunk allowed vlan 2247,2251
+ switchport mode trunk
+!
+interface FastEthernet0
+ no ip address
+ shutdown
+!
+interface GigabitEthernet1/0/1
+ switchport access vlan 2251
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/2
+ switchport access vlan 2251
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/3
+ switchport access vlan 2251
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/4
+ switchport access vlan 2251
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/5
+ switchport access vlan 2251
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/6
+ switchport access vlan 2251
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/7
+ switchport access vlan 2251
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/8
+ switchport access vlan 2251
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/9
+ switchport access vlan 2251
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/10
+ switchport access vlan 2251
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/11
+ switchport access vlan 2251
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/12
+ switchport access vlan 2251
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/13
+ switchport access vlan 2247
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/14
+ switchport access vlan 2247
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/15
+ switchport access vlan 2247
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/16
+ switchport access vlan 2247
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/17
+ switchport access vlan 2247
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/18
+ switchport access vlan 2247
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/19
+ switchport access vlan 2247
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/20
+ switchport access vlan 2247
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/21
+ switchport access vlan 2247
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/22
+ switchport access vlan 2247
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/23
+ switchport trunk allowed vlan 2247,2251
+ switchport mode trunk
+ channel-group 24 mode on
+!
+interface GigabitEthernet1/0/24
+ switchport trunk allowed vlan 2247,2251
+ switchport mode trunk
+ channel-group 24 mode on
+!
+interface GigabitEthernet1/0/25
+!
+interface GigabitEthernet1/0/26
+!
+interface TenGigabitEthernet1/0/1
+!
+interface TenGigabitEthernet1/0/2
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan2251
+ ip address 10.11.251.16 255.255.255.0
+!
+ip default-gateway 10.11.251.254
+ip http server
+ip http secure-server
+!
+!
+!
+snmp-server community public RO
+snmp-server host 10.11.16.33 version 2c public 
+!
+!
+line con 0
+ login local
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login local
+ transport input ssh
+!
+end

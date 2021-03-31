@@ -1,0 +1,468 @@
+Building configuration...
+
+Current configuration : 8676 bytes
+!
+! Last configuration change at 16:16:23 UTC Fri Jan 8 2021 by admin
+! NVRAM config last updated at 16:16:24 UTC Fri Jan 8 2021 by admin
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+!
+hostname CN.SZ.CDC.Dev.ACC01
+!
+boot-start-marker
+boot-end-marker
+!
+logging buffered 4096000
+!
+username admin privilege 15 secret 5 $1$JZBO$TcyuTh/US.sacJvXUJFpn.
+username Z003NUET privilege 15 secret 5 $1$pVP1$mm/oK2yMEXhmzAt.DHICr.
+username Z003NH3W privilege 15 secret 5 $1$L0lq$woOSWB1.a/qGsQ4Ym/DpZ1
+no aaa new-model
+clock timezone UTC 8 0
+switch 1 provision ws-c2960x-48td-l
+ip routing
+!
+!
+no ip domain-lookup
+vtp mode transparent
+!
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-1151907584
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-1151907584
+ revocation-check none
+ rsakeypair TP-self-signed-1151907584
+!
+!
+crypto pki certificate chain TP-self-signed-1151907584
+ certificate self-signed 01
+  3082022B 30820194 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 31313531 39303735 3834301E 170D3136 31323036 30373534 
+  34375A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D31 31353139 
+  30373538 3430819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  8100DACA FE78873E 136C6AEC 9C692E18 B97A3194 C69D2983 7AE6BEA1 24EC2450 
+  83AAC9B8 0B845B56 4AA3D1EA 43B961D7 D2D8E8E2 3630AA52 320BC835 3DCE9F3A 
+  F974327B C23A7AF1 3696B276 FF6A9C94 359F5109 3F529633 067212B2 4CAF4006 
+  E03BD8B1 59B606B1 7886BC88 D1BB781B 8691013F C8B876A1 282B6219 45387074 
+  656B0203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 301F0603 
+  551D2304 18301680 1467F68D 228A183B 43CA28B5 DE1E137B 1C620BBC 22301D06 
+  03551D0E 04160414 67F68D22 8A183B43 CA28B5DE 1E137B1C 620BBC22 300D0609 
+  2A864886 F70D0101 05050003 818100AC 117B0D59 CA0D4139 C2F9926E 272866FD 
+  891802AF F9FB3598 26F5D891 2DE79683 B46C4E2C C2CEBDFB FAAE7BC9 C32EEBF9 
+  6D5033C6 80AE237F A7A25CD8 E01911D5 E15CEF3F 19A3C778 49CEAA75 C164F173 
+  AAC1FF5A 6ADE7020 8A97B1E7 C2EAECC2 5C57238F E1745354 DD80D949 D7FFE346 
+  7338CF50 8BB0C46F C21784E8 838B1E
+  	quit
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+port-channel load-balance src-dst-ip
+!
+!
+!
+!
+vlan internal allocation policy ascending
+!
+vlan 1000
+ name RSPAN
+ remote-span
+!
+vlan 2016
+ name CDC Services
+!
+vlan 2032
+ name yangrongju
+!
+vlan 2033
+ name yuqi
+!
+vlan 2034
+ name chenkang
+!
+vlan 2035
+ name chengjia
+!
+vlan 2036
+ name chenjianhua
+!
+vlan 2037
+ name wangzhuolong
+!
+vlan 2038
+ name caoleiallen
+!
+vlan 2039
+ name daipeng
+!
+vlan 2040
+ name daijun
+!
+vlan 2041
+ name xujianwei
+!
+vlan 2042
+ name zhaotian
+!
+vlan 2043
+ name zhoujianxin
+!
+vlan 2045
+ name caoleileo
+!
+vlan 2046
+ name lintao
+!
+vlan 2047
+ name jiangxueqing
+!
+vlan 2048
+ name chencanlin
+!
+vlan 2049
+ name zhengwenjing
+!
+vlan 2050
+ name sunzhuli
+!
+vlan 2051
+ name wangyan
+!
+vlan 2052
+ name xuzhihao
+!
+vlan 2053
+ name zhanghui
+!
+vlan 2054
+ name wuhongfeng
+!
+vlan 2056
+ name yuyue
+!
+vlan 2057
+ name songjie
+!
+vlan 2058
+ name xuchunxia
+!
+vlan 2059
+ name chenlili
+!
+vlan 2060
+ name OPA
+!
+vlan 2062
+ name DLP
+!
+vlan 2063
+ name Integration
+!
+vlan 2064
+ name zhuliuyao
+!
+vlan 2065
+ name caixuewa
+!
+vlan 2066
+ name wangzhe
+!
+vlan 2071
+ name HuLei
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+interface Port-channel1
+ switchport mode trunk
+!
+interface Port-channel2
+ switchport mode trunk
+!
+interface Port-channel3
+ switchport mode trunk
+!
+interface Port-channel4
+ switchport mode trunk
+!
+interface Port-channel5
+ switchport mode trunk
+!
+interface Port-channel6
+ switchport mode trunk
+!
+interface Port-channel7
+ switchport mode trunk
+!
+interface Port-channel8
+ switchport mode trunk
+!
+interface Port-channel9
+ switchport mode trunk
+!
+interface Port-channel10
+ switchport mode trunk
+!
+interface Port-channel11
+ switchport mode trunk
+!
+interface Port-channel12
+ switchport mode trunk
+!
+interface Port-channel13
+ switchport mode trunk
+!
+interface Port-channel14
+ switchport mode trunk
+!
+interface Port-channel15
+ switchport mode trunk
+!
+interface Port-channel16
+ switchport mode trunk
+!
+interface Port-channel17
+ switchport mode trunk
+!
+interface Port-channel18
+ switchport mode trunk
+!
+interface Port-channel19
+ switchport mode trunk
+!
+interface Port-channel24
+!
+interface FastEthernet0
+ ip address 10.11.251.23 255.255.255.0
+ no ip route-cache
+!
+interface GigabitEthernet1/0/1
+ description TO-OPA
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/2
+ description TO-OPA
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/3
+ description TO-OPA
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/4
+ description TO-OPA
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/5
+ switchport mode trunk
+ channel-group 3 mode on
+!
+interface GigabitEthernet1/0/6
+ switchport mode trunk
+ channel-group 3 mode on
+!
+interface GigabitEthernet1/0/7
+ switchport mode trunk
+ channel-group 4 mode on
+!
+interface GigabitEthernet1/0/8
+ switchport mode trunk
+ channel-group 4 mode on
+!
+interface GigabitEthernet1/0/9
+ switchport mode trunk
+ channel-group 5 mode on
+!
+interface GigabitEthernet1/0/10
+ switchport mode trunk
+ channel-group 5 mode on
+!
+interface GigabitEthernet1/0/11
+ switchport mode trunk
+ channel-group 6 mode on
+!
+interface GigabitEthernet1/0/12
+ switchport mode trunk
+ channel-group 6 mode on
+!
+interface GigabitEthernet1/0/13
+ switchport mode trunk
+ channel-group 7 mode on
+!
+interface GigabitEthernet1/0/14
+ switchport mode trunk
+ channel-group 7 mode on
+!
+interface GigabitEthernet1/0/15
+ switchport mode trunk
+ channel-group 8 mode on
+!
+interface GigabitEthernet1/0/16
+ switchport mode trunk
+ channel-group 8 mode on
+!
+interface GigabitEthernet1/0/17
+ switchport mode trunk
+ channel-group 9 mode on
+!
+interface GigabitEthernet1/0/18
+ switchport mode trunk
+ channel-group 9 mode on
+!
+interface GigabitEthernet1/0/19
+ description TO-OPA
+ switchport access vlan 2046
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/20
+ description TO-OPA
+ switchport access vlan 2046
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/21
+ switchport mode trunk
+ channel-group 11 mode on
+!
+interface GigabitEthernet1/0/22
+ switchport mode trunk
+ channel-group 11 mode on
+!
+interface GigabitEthernet1/0/23
+ switchport mode trunk
+ channel-group 12 mode on
+!
+interface GigabitEthernet1/0/24
+ switchport mode trunk
+ channel-group 12 mode on
+!
+interface GigabitEthernet1/0/25
+ switchport mode trunk
+ channel-group 13 mode on
+!
+interface GigabitEthernet1/0/26
+ switchport mode trunk
+ channel-group 13 mode on
+!
+interface GigabitEthernet1/0/27
+ switchport mode trunk
+ channel-group 14 mode on
+!
+interface GigabitEthernet1/0/28
+ switchport mode trunk
+ channel-group 14 mode on
+!
+interface GigabitEthernet1/0/29
+!
+interface GigabitEthernet1/0/30
+!
+interface GigabitEthernet1/0/31
+!
+interface GigabitEthernet1/0/32
+!
+interface GigabitEthernet1/0/33
+!
+interface GigabitEthernet1/0/34
+!
+interface GigabitEthernet1/0/35
+ description TO-OSA
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/36
+ description TO-OSA
+ switchport access vlan 2060
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/37
+!
+interface GigabitEthernet1/0/38
+!
+interface GigabitEthernet1/0/39
+!
+interface GigabitEthernet1/0/40
+!
+interface GigabitEthernet1/0/41
+!
+interface GigabitEthernet1/0/42
+!
+interface GigabitEthernet1/0/43
+!
+interface GigabitEthernet1/0/44
+!
+interface GigabitEthernet1/0/45
+!
+interface GigabitEthernet1/0/46
+!
+interface GigabitEthernet1/0/47
+ channel-group 24 mode on
+!
+interface GigabitEthernet1/0/48
+ channel-group 24 mode on
+!
+interface GigabitEthernet1/0/49
+!
+interface GigabitEthernet1/0/50
+!
+interface TenGigabitEthernet1/0/1
+!
+interface TenGigabitEthernet1/0/2
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+ip default-gateway 10.11.251.254
+no ip http server
+ip http secure-server
+!
+ip route 0.0.0.0 0.0.0.0 10.11.251.254
+ip ssh version 2
+!
+logging trap debugging
+logging host 10.11.35.150 transport tcp port 514
+!
+snmp-server community public RO
+snmp-server host 10.11.16.33 version 2c public 
+!
+no vstack
+!
+line con 0
+ exec-timeout 5 0
+ login local
+line vty 0 4
+ login local
+ transport input ssh
+line vty 5 15
+ login local
+ transport input ssh
+!
+ntp server 10.11.105.201
+end
